@@ -1,17 +1,14 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Select the entire interactive envelope system
-    const interactiveEnvelope = document.getElementById('envelope-interactive');
-    const messagePaper = document.getElementById('message-paper');
+    const letterBtn = document.getElementById('letter-btn');
+    const bouquet = document.querySelector('.bouquet-wrapper');
+    const secretMessage = document.getElementById('secret-message');
 
-    interactiveEnvelope.addEventListener('click', () => {
-        // Simple and clean hide effect
-        interactiveEnvelope.style.opacity = '0';
-        interactiveEnvelope.style.transform = 'translateY(-20px) scale(0.9)';
+    letterBtn.addEventListener('click', () => {
+        // Hide flowers and letter
+        letterBtn.style.display = 'none';
+        bouquet.style.display = 'none';
         
-        // Wait for the animation before fully hiding
-        setTimeout(() => {
-            interactiveEnvelope.style.display = 'none';
-            messagePaper.classList.remove('hidden');
-        }, 400); 
+        // Show the message
+        secretMessage.classList.remove('hidden');
     });
 });
