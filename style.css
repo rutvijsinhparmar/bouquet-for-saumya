@@ -1,159 +1,78 @@
-/* --- Scene Setup --- */
 body {
-    background-color: #e0e5ec;
+    background-color: #fdf5e6;
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
     margin: 0;
-    font-family: 'Serif', 'Georgia', serif;
-    overflow: hidden; /* Prevents scrollbars if the wind gets wild */
+    font-family: 'Georgia', serif;
+    color: #5d4037;
 }
 
-/* This outer wrapper keeps the overall scene neat and centered */
-.main-viewport {
-    perspective: 1000px; /* Essential for 3D realism */
+.container {
+    text-align: center;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
-    width: 100%;
 }
 
-/* --- The Real Envelope (Streamlined Sizing) --- */
-.envelope-container {
-    position: relative;
-    /* REDUCED SIZE FOR VISIBILITY */
-    width: 280px;  /* Smaller overall letter */
-    height: 190px;
-    cursor: pointer;
-    transition: all 0.5s ease;
-    transform-style: preserve-3d;
-}
-
-/* Base envelope look: Realistic cream paper */
-.envelope-back, .envelope-front {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background-color: #fdfaf3;
-    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAIklEQVQIW2NkQAKrVq36z8gAFkNfX5+BkTFNFki6u7v/BwAmVAsKp736WAAAAABJRU5ErkJggg=='); /* Simple paper texture */
-    border-radius: 6px;
-    box-shadow: 
-        10px 10px 20px rgba(0,0,0,0.1), 
-        -5px -5px 15px rgba(255,255,255,0.8);
-}
-
-.envelope-back {
+/* Bouquet Styling */
+.bouquet-wrapper {
+    margin-bottom: -10px; /* This creates the 2% overlap with the letter below it */
     z-index: 1;
 }
 
-/* --- The Corrected, Visible Bouquet --- */
-.bouquet-hold {
-    position: absolute;
-    /* REDUCED OFFSET to make it fit inside the smaller envelope */
-    bottom: -15px; 
-    left: 50%;
-    transform: translateX(-50%);
-    width: 100%; /* Spans the full width of the envelope container */
-    height: auto;
-    z-index: 2; /* Between back and front */
-    display: flex;
-    justify-content: center;
-}
-
-/* --- The Fix: Realistic Farm Wind & Visibility --- */
-.real-wind-bouquet {
-    /* STRICTLY LIMIT THE MAXIMUM WIDTH OF THE IMAGE itself */
-    max-width: 180px; /* Adjust this number to make the flowers larger/smaller */
+.bouquet-static {
+    max-width: 250px;
     height: auto;
     display: block;
-    transform-origin: bottom center; /* Sway base */
-    
-    /* Optimized animations (shorter sways) */
-    animation: 
-        farmSway 5s ease-in-out infinite, 
-        farmBob 3s ease-in-out infinite alternate;
+    /* No animation here - flowers stay still */
 }
 
-/* --- The Front Covering (2% Layering) --- */
-.envelope-front {
-    z-index: 3; /* Top layer: covers the flowers */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+/* Old Letter Styling */
+.envelope-wrapper {
+    cursor: pointer;
+    z-index: 2; /* Sits on top of the bouquet base */
+    transition: transform 0.2s;
 }
 
-/* A smaller, realistic wax seal */
-.wax-seal {
-    width: 45px;
-    height: 45px;
-    background: radial-gradient(circle, #c62828 0%, #880e4f 100%);
-    border-radius: 50%;
-    color: #f5c618;
-    font-size: 1.6rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.envelope-wrapper:hover {
+    transform: scale(1.03);
+}
+
+.letter-preview {
+    background: #f1e3c4;
+    padding: 40px 70px;
+    border: 2px solid #d7c4a3;
+    border-radius: 4px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+.letter-preview p {
+    margin: 0;
+    font-size: 1.5rem;
     font-weight: bold;
-    box-shadow: 2px 4px 6px rgba(0,0,0,0.3);
-    border: 3px solid #b71c1c;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
-    margin-bottom: 10px;
 }
 
-.click-prompt {
-    font-size: 0.8rem;
-    color: #8d6e63;
-    font-style: italic;
-    letter-spacing: 0.5px;
+/* Message reveal styling */
+.hidden {
+    display: none;
 }
 
-/* --- Message Paper (Photorealistic) --- */
-#message-paper {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 90vw;
-    max-width: 400px; /* Reduced max-width for smaller screens */
-    z-index: 100;
-}
-
-.hidden { display: none !important; }
-
-.paper-texture {
-    background: #fff;
-    padding: 30px;
-    box-shadow: 0 15px 40px rgba(0,0,0,0.15);
-    border-radius: 2px;
-    text-align: center;
+.message-paper {
+    background: white;
+    padding: 40px;
+    border: 1px solid #eee;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    max-width: 400px;
     line-height: 1.6;
-    color: #4e342e;
-    animation: paperReveal 0.6s ease-out forwards;
+    margin-top: 20px;
+    animation: fadeIn 0.8s ease-in;
 }
 
-h1 { color: #ad1457; font-size: 1.6rem; margin-top: 0; }
-strong { color: #c2185b; }
-
-/* --- Advanced, Visible Animations --- */
-
-/* Smaller, more contained farm sway */
-@keyframes farmSway {
-    0%, 100% { transform: rotate(-0.5deg); }
-    20% { transform: rotate(1deg); }
-    40% { transform: rotate(-0.3deg); }
-    60% { transform: rotate(0.8deg); }
-    80% { transform: rotate(-1deg); }
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 
-/* Gentle vertical bobbing */
-@keyframes farmBob {
-    0% { transform: translateY(0); }
-    100% { transform: translateY(-3px); }
-}
-
-@keyframes paperReveal {
-    from { opacity: 0; transform: translate(-50%, -40%) scale(0.9); }
-    to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-}
+h1 { color: #880e4f; }
