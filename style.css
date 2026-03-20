@@ -1,4 +1,4 @@
-body {
+]body {
     background-color: #e0e5ec;
     display: flex;
     justify-content: center;
@@ -9,58 +9,38 @@ body {
 }
 
 .stage {
-    position: relative;
-    perspective: 1000px;
-}
-
-/* --- The Realistic Envelope --- */
-.envelope-container {
-    position: relative;
-    width: 320px;
-    height: 220px;
-    cursor: pointer;
-    transition: transform 0.4s ease;
-    transform-style: preserve-3d;
-}
-
-.envelope-back, .envelope-front {
-    position: absolute;
+    text-align: center;
     width: 100%;
-    height: 100%;
-    background-color: #fdfaf3;
-    border-radius: 4px;
-    box-shadow: 10px 10px 20px rgba(0,0,0,0.05);
+    max-width: 400px;
 }
 
-.envelope-back {
-    z-index: 1;
-}
-
-/* --- The Bouquet (Tucked In) --- */
-.bouquet-hold {
-    position: absolute;
-    /* This 'bottom' value ensures they touch with a tiny overlap */
-    bottom: 5px; 
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 2; /* Sits between back and front */
+/* Bouquet Styling - No overlap, just sitting on top */
+.bouquet-container {
+    margin-bottom: 20px; /* Space between flowers and envelope */
 }
 
 .bouquet-static {
-    max-width: 220px;
+    max-width: 200px;
     height: auto;
-    display: block;
-    /* No animation/wind effects */
+    display: inline-block;
 }
 
-/* --- The Front Covering --- */
-.envelope-front {
-    z-index: 3; 
+/* Realistic Envelope Card */
+.envelope-card {
+    background-color: #fdfaf3;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 10px 10px 20px rgba(0,0,0,0.05);
+    cursor: pointer;
+    transition: transform 0.3s ease;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-    border-top: 1px solid rgba(0,0,0,0.05);
+    border: 1px solid rgba(0,0,0,0.03);
+}
+
+.envelope-card:hover {
+    transform: translateY(-5px);
 }
 
 .wax-seal {
@@ -76,40 +56,37 @@ body {
     font-weight: bold;
     box-shadow: 2px 4px 6px rgba(0,0,0,0.2);
     border: 2px solid #b71c1c;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
 }
 
-.click-prompt {
-    font-size: 0.9rem;
+.envelope-text p {
+    margin: 0;
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: #5d4037;
+}
+
+.envelope-text small {
     color: #8d6e63;
     font-style: italic;
 }
 
-/* --- Message Paper --- */
-#message-paper {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 90vw;
-    max-width: 400px;
-    z-index: 100;
-}
-
+/* Hidden Message Reveal */
 .hidden { display: none !important; }
 
 .paper-texture {
     background: #fff;
     padding: 40px;
     box-shadow: 0 15px 50px rgba(0,0,0,0.1);
+    border-radius: 2px;
     text-align: center;
     line-height: 1.6;
-    animation: fadeIn 0.5s ease-out;
+    animation: fadeInUp 0.5s ease-out;
 }
 
-@keyframes fadeIn {
-    from { opacity: 0; transform: scale(0.9); }
-    to { opacity: 1; transform: scale(1); }
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 h1 { color: #ad1457; margin-top: 0; }
