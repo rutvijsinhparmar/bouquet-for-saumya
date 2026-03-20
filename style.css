@@ -1,82 +1,115 @@
 body {
-    background-color: #fcf8f0;
+    background-color: #e0e5ec;
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
     margin: 0;
     font-family: 'Georgia', serif;
-    color: #5d4037;
-    overflow-x: hidden;
 }
 
-.container {
-    text-align: center;
-    padding: 20px;
-}
-
-/* The Wave Effect for the Bouquet */
-.bouquet-wave {
-    max-width: 280px;
-    height: auto;
-    margin-bottom: 30px;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    transform-origin: bottom center;
-    animation: sway 4s ease-in-out infinite;
-}
-
-@keyframes sway {
-    0%, 100% { transform: rotate(-3deg) translateY(0); }
-    50% { transform: rotate(3deg) translateY(-5px); }
-}
-
-/* Old Letter Styling */
-.envelope-wrapper {
-    cursor: pointer;
-    transition: transform 0.3s ease;
-    display: inline-block;
-}
-
-.envelope-wrapper:hover {
-    transform: translateY(-5px) scale(1.02);
-}
-
-.letter-preview {
-    background: #f1e3c4;
-    padding: 35px 60px;
-    border: 2px solid #d7c4a3;
-    border-radius: 4px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+.stage {
     position: relative;
+    perspective: 1000px;
 }
 
-.letter-preview p {
-    margin: 0;
-    font-size: 1.4rem;
+/* --- The Realistic Envelope --- */
+.envelope-container {
+    position: relative;
+    width: 320px;
+    height: 220px;
+    cursor: pointer;
+    transition: transform 0.4s ease;
+    transform-style: preserve-3d;
+}
+
+.envelope-back, .envelope-front {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: #fdfaf3;
+    border-radius: 4px;
+    box-shadow: 10px 10px 20px rgba(0,0,0,0.05);
+}
+
+.envelope-back {
+    z-index: 1;
+}
+
+/* --- The Bouquet (Tucked In) --- */
+.bouquet-hold {
+    position: absolute;
+    /* This 'bottom' value ensures they touch with a tiny overlap */
+    bottom: 5px; 
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2; /* Sits between back and front */
+}
+
+.bouquet-static {
+    max-width: 220px;
+    height: auto;
+    display: block;
+    /* No animation/wind effects */
+}
+
+/* --- The Front Covering --- */
+.envelope-front {
+    z-index: 3; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-top: 1px solid rgba(0,0,0,0.05);
+}
+
+.wax-seal {
+    width: 50px;
+    height: 50px;
+    background: radial-gradient(circle, #c62828 0%, #880e4f 100%);
+    border-radius: 50%;
+    color: #f5c618;
+    font-size: 1.8rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     font-weight: bold;
+    box-shadow: 2px 4px 6px rgba(0,0,0,0.2);
+    border: 2px solid #b71c1c;
+    margin-bottom: 10px;
 }
 
-/* Hidden Message Styling */
-.hidden {
-    display: none;
+.click-prompt {
+    font-size: 0.9rem;
+    color: #8d6e63;
+    font-style: italic;
 }
 
-.message-paper {
-    background: white;
-    padding: 40px;
-    border-radius: 2px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+/* --- Message Paper --- */
+#message-paper {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90vw;
     max-width: 400px;
-    border: 1px solid #eee;
+    z-index: 100;
+}
+
+.hidden { display: none !important; }
+
+.paper-texture {
+    background: #fff;
+    padding: 40px;
+    box-shadow: 0 15px 50px rgba(0,0,0,0.1);
+    text-align: center;
     line-height: 1.6;
-    animation: fadeIn 1s ease-out;
+    animation: fadeIn 0.5s ease-out;
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
 }
 
 h1 { color: #ad1457; margin-top: 0; }
