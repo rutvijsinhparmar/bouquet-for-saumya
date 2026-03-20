@@ -1,82 +1,162 @@
+/* --- Scene Setup --- */
 body {
-    background-color: #fcf8f0;
+    background-color: #e0e5ec; /* Neutral, soft background to pop the textures */
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
     margin: 0;
-    font-family: 'Georgia', serif;
-    color: #5d4037;
-    overflow-x: hidden;
+    font-family: 'Serif', 'Georgia', serif;
+    overflow: hidden; /* Keeps the wind effects contained */
 }
 
-.container {
-    text-align: center;
-    padding: 20px;
-}
-
-/* The Wave Effect for the Bouquet */
-.bouquet-wave {
-    max-width: 280px;
-    height: auto;
-    margin-bottom: 30px;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    transform-origin: bottom center;
-    animation: sway 4s ease-in-out infinite;
-}
-
-@keyframes sway {
-    0%, 100% { transform: rotate(-3deg) translateY(0); }
-    50% { transform: rotate(3deg) translateY(-5px); }
-}
-
-/* Old Letter Styling */
-.envelope-wrapper {
-    cursor: pointer;
-    transition: transform 0.3s ease;
-    display: inline-block;
-}
-
-.envelope-wrapper:hover {
-    transform: translateY(-5px) scale(1.02);
-}
-
-.letter-preview {
-    background: #f1e3c4;
-    padding: 35px 60px;
-    border: 2px solid #d7c4a3;
-    border-radius: 4px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+.stage {
     position: relative;
+    perspective: 1000px; /* Essential for 3D realism */
 }
 
-.letter-preview p {
-    margin: 0;
-    font-size: 1.4rem;
+/* --- The Real Envelope --- */
+.envelope-container {
+    position: relative;
+    width: 350px;
+    height: 250px;
+    cursor: pointer;
+    transition: transform 0.6s ease;
+    transform-style: preserve-3d;
+}
+
+/* Base envelope look: Realistic cream paper, slight texture */
+.envelope-back, .envelope-front {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: #fdfaf3;
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAIklEQVQIW2NkQAKrVq36z8gAFkNfX5+BkTFNFki6u7v/BwAmVAsKp736WAAAAABJRU5ErkJggg=='); /* Subtle paper texture */
+    border-radius: 8px;
+    box-shadow: 
+        10px 10px 20px rgba(0,0,0,0.1), /* Soft environment shadow */
+        -5px -5px 15px rgba(255,255,255,0.8); /* Neumorphic highlight */
+}
+
+.envelope-back {
+    z-index: 1;
+}
+
+/* --- The Layered Bouquet --- */
+.bouquet-hold {
+    position: absolute;
+    bottom: 2%; /* This controls how much the bouquet is 'inside' */
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    height: auto;
+    z-index: 2; /* Sits above the back, below the front */
+}
+
+/* Realistic Farm Wind Animation */
+/* Combining sway (horizontal), bob (vertical), and random scale (wind gusts) */
+.real-wind-bouquet {
+    width: 100%;
+    height: auto;
+    display: block;
+    transform-origin: bottom center; /* Flowers sway from the base */
+    animation: 
+        farmSway 6s ease-in-out infinite, 
+        farmBob 4s ease-in-out infinite alternate, 
+        gustEffect 11s ease-in-out infinite;
+}
+
+/* --- The Front Covering (Crucial Layering) --- */
+.envelope-front {
+    z-index: 3; /* Top layer: covers the bottom 2% of bouquet */
+    border-top: 2px solid rgba(0,0,0,0.03); /* Faint edge */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* A realistic wax seal */
+.wax-seal {
+    width: 60px;
+    height: 60px;
+    background: #a11f2a;
+    background: radial-gradient(circle, #c62828 0%, #880e4f 100%);
+    border-radius: 50%;
+    color: #f5c618;
+    font-size: 2.2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     font-weight: bold;
+    box-shadow: 2px 4px 6px rgba(0,0,0,0.3);
+    border: 3px solid #b71c1c;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+    margin-bottom: 20px;
 }
 
-/* Hidden Message Styling */
-.hidden {
-    display: none;
+.click-prompt {
+    font-size: 0.9rem;
+    color: #8d6e63;
+    font-style: italic;
+    letter-spacing: 1px;
 }
 
-.message-paper {
-    background: white;
-    padding: 40px;
+/* --- Message Paper (Photorealistic) --- */
+#message-paper {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90vw;
+    max-width: 450px;
+    z-index: 100;
+}
+
+.hidden { display: none !important; }
+
+.paper-texture {
+    background: #fff;
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAIklEQVQIW2NkQAKrVq36z8gAFkNfX5+BkTFNFki6u7v/BwAmVAsKp736WAAAAABJRU5ErkJggg=='); /* Same subtle texture */
+    padding: 50px;
+    box-shadow: 0 15px 50px rgba(0,0,0,0.2);
     border-radius: 2px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-    max-width: 400px;
-    border: 1px solid #eee;
-    line-height: 1.6;
-    animation: fadeIn 1s ease-out;
+    text-align: center;
+    line-height: 1.8;
+    color: #4e342e;
+    transform: rotateX(10deg); /* Slight 3D angle when revealed */
+    animation: paperReveal 0.8s ease-out forwards;
 }
 
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+h1 { color: #ad1457; font-size: 1.8rem; margin-top: 0; }
+strong { color: #c2185b; }
+
+/* --- Advanced Animations --- */
+
+/* 1. Slow, complex farm sway */
+@keyframes farmSway {
+    0%, 100% { transform: translateX(-50%) rotate(-1deg); }
+    20% { transform: translateX(-50%) rotate(2deg); }
+    40% { transform: translateX(-50%) rotate(-0.5deg); }
+    60% { transform: translateX(-50%) rotate(1.5deg); }
+    80% { transform: translateX(-50%) rotate(-2deg); }
 }
 
-h1 { color: #ad1457; margin-top: 0; }
+/* 2. Gentle vertical bobbing */
+@keyframes farmBob {
+    0% { transform: translateX(-50%) translateY(0); }
+    100% { transform: translateX(-50%) translateY(-6px); }
+}
+
+/* 3. Random 'Gust' simulation (scale changes are subtle and slow) */
+@keyframes gustEffect {
+    0%, 100% { opacity: 1; }
+    45% { transform: translateX(-50%) scale(1); }
+    50% { transform: translateX(-50%) scale(1.01); } /* Slight stretch in wind */
+    55% { transform: translateX(-50%) scale(1); }
+}
+
+@keyframes paperReveal {
+    from { opacity: 0; transform: translate(-50%, -40%) rotateX(30deg); }
+    to { opacity: 1; transform: translate(-50%, -50%) rotateX(0deg); }
+}
