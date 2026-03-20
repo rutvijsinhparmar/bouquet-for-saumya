@@ -1,17 +1,16 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const interactionGroup = document.getElementById('interaction-group');
-    const envelopeBtn = document.getElementById('envelope-btn');
+    const landingContent = document.getElementById('landing-content');
+    const revealBtn = document.getElementById('reveal-btn');
     const messagePaper = document.getElementById('message-paper');
 
-    envelopeBtn.addEventListener('click', () => {
-        // Fade out everything at once
-        interactionGroup.style.opacity = '0';
-        interactionGroup.style.transition = '0.4s';
+    revealBtn.addEventListener('click', () => {
+        // Smoothly fade out the flowers and button
+        landingContent.style.opacity = '0';
+        landingContent.style.transition = 'opacity 0.5s ease';
         
-        // After fade, hide group and show message
         setTimeout(() => {
-            interactionGroup.style.display = 'none';
+            landingContent.style.display = 'none';
             messagePaper.classList.remove('hidden');
-        }, 400);
+        }, 500);
     });
 });
