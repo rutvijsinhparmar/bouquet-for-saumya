@@ -1,12 +1,16 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const letterBtn = document.getElementById('letter-btn');
-    const secretMessage = document.getElementById('secret-message');
+    const envelope = document.getElementById('envelope-interactive');
+    const messagePaper = document.getElementById('message-paper');
 
-    letterBtn.addEventListener('click', () => {
-        // Hide the clickable letter
-        letterBtn.style.display = 'none';
+    envelope.addEventListener('click', () => {
+        // Fade out the envelope and flowers
+        envelope.style.opacity = '0';
+        envelope.style.transition = '0.4s';
         
-        // Reveal the message with a smooth fade
-        secretMessage.classList.remove('hidden');
+        // Show the message
+        setTimeout(() => {
+            envelope.style.display = 'none';
+            messagePaper.classList.remove('hidden');
+        }, 400);
     });
 });
