@@ -1,5 +1,5 @@
 body {
-    background-color: #fdf5e6;
+    background-color: #fcf8f0;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -7,54 +7,58 @@ body {
     margin: 0;
     font-family: 'Georgia', serif;
     color: #5d4037;
+    overflow-x: hidden;
 }
 
 .container {
     text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    padding: 20px;
 }
 
-/* Bouquet Styling */
-.bouquet-wrapper {
-    margin-bottom: -10px; /* This creates the 2% overlap with the letter below it */
-    z-index: 1;
-}
-
-.bouquet-static {
-    max-width: 250px;
+/* The Wave Effect for the Bouquet */
+.bouquet-wave {
+    max-width: 280px;
     height: auto;
+    margin-bottom: 30px;
     display: block;
-    /* No animation here - flowers stay still */
+    margin-left: auto;
+    margin-right: auto;
+    transform-origin: bottom center;
+    animation: sway 4s ease-in-out infinite;
+}
+
+@keyframes sway {
+    0%, 100% { transform: rotate(-3deg) translateY(0); }
+    50% { transform: rotate(3deg) translateY(-5px); }
 }
 
 /* Old Letter Styling */
 .envelope-wrapper {
     cursor: pointer;
-    z-index: 2; /* Sits on top of the bouquet base */
-    transition: transform 0.2s;
+    transition: transform 0.3s ease;
+    display: inline-block;
 }
 
 .envelope-wrapper:hover {
-    transform: scale(1.03);
+    transform: translateY(-5px) scale(1.02);
 }
 
 .letter-preview {
     background: #f1e3c4;
-    padding: 40px 70px;
+    padding: 35px 60px;
     border: 2px solid #d7c4a3;
     border-radius: 4px;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    position: relative;
 }
 
 .letter-preview p {
     margin: 0;
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     font-weight: bold;
 }
 
-/* Message reveal styling */
+/* Hidden Message Styling */
 .hidden {
     display: none;
 }
@@ -62,17 +66,17 @@ body {
 .message-paper {
     background: white;
     padding: 40px;
-    border: 1px solid #eee;
+    border-radius: 2px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.1);
     max-width: 400px;
+    border: 1px solid #eee;
     line-height: 1.6;
-    margin-top: 20px;
-    animation: fadeIn 0.8s ease-in;
+    animation: fadeIn 1s ease-out;
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
-h1 { color: #880e4f; }
+h1 { color: #ad1457; margin-top: 0; }
